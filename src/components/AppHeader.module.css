@@ -1,4 +1,32 @@
+@import url('https://fonts.googleapis.com/css2?family=Lexend:wght@400;700&display=swap');
+
+
 .header {
   height: 60px;
   background: #fff;
+  display: flex;
+  justify-content: space-between;
+}
+
+.logo {
+  width: 32px;
+  height: 29px;
+  margin-top: 16px;
+  margin-left: 16px;
+  margin-right: 13px;
+
+}
+
+.cards {
+  margin-top: 20px;
+  margin-right: auto;
+  font-family: 'Lexend', sans-serif;
+  font-size: 18px;
+  font-weight: 500;
+}
+
+.cardInfo {
+  margin-top: 10px;
+  margin-right: 16px;
+  width: 40px;
 }
