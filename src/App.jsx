@@ -4,11 +4,16 @@ import { AppLayout } from "./components/AppLayout";
 import "./App.css";
 
 function App() {
+   const cardsAmount = 0;  
   return (
     <AppLayout>
-      <AppHeader />
+      <AppHeader cardsAmount={cardsAmount} />
     </AppLayout>
   );
 }
 
 export default App;
+
+
+
+
