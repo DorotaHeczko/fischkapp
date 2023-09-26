@@ -9,7 +9,7 @@ export const AppHeader = ({ cardsAmount }) => {
     <header className={styles.header}>
       <img src={logo} alt="Logo" className={styles.logo} />
       <span className={styles.cards}>Cards: {cardsAmount} </span>
-      <div className={styles.cardInfo}>
+        <div className={styles.cardInfo}>
           <img src={cardIcon} alt="card-icon" />
     <button className={styles.ctaButton}></button>
       </div>
