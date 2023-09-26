@@ -1,5 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Lexend:wght@400;700&display=swap');
-
+@import url("https://fonts.googleapis.com/css2?family=Lexend:wght@400;700&display=swap");
 
 .header {
   height: 60px;
@@ -9,18 +8,17 @@
 }
 
 .logo {
-  width: 32px;
-  height: 29px;
   margin-top: 16px;
   margin-left: 16px;
   margin-right: 13px;
-
+  width: 32px;
+  height: 25px;
 }
 
 .cards {
   margin-top: 20px;
   margin-right: auto;
-  font-family: 'Lexend', sans-serif;
+  font-family: "Lexend", sans-serif;
   font-size: 18px;
   font-weight: 500;
 }
@@ -29,4 +27,18 @@
   margin-top: 10px;
   margin-right: 16px;
   width: 40px;
+  position: relative;
+}
+
+.ctaButton {
+  position: absolute;
+  z-index: 1;
+  top: 0;
+  left: 0;
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  background-color: transparent;
+  border: none;
+  outline: none;
 }
