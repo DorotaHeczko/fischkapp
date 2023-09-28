@@ -2,8 +2,6 @@
   Fischkapp 📄
 </h1>
 
-This project aims to create a simple app that supports learning.
-
 ---
 
 ### 📝 Project requirements

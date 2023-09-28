@@ -1,0 +1,15 @@
+
+.textArea {
+  display: block;
+  overflow-y: hidden;
+  position: relative;
+  width: 343px;
+  height: 188px;
+  background-color: var(--btn-white);
+  border-radius: 15px;
+  border: 1px #ebebec solid;
+  margin-right: 12px;
+  margin-left: 15px;
+  resize: none;
+  border: 1px #ebebec solid;
+}
