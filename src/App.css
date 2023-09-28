@@ -8,3 +8,9 @@
 body {
   background: #373737;
 }
+
+:root {
+  --btn-white: #ffff;
+  --btn-black: #161616;
+ 
+}
