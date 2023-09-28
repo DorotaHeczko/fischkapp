@@ -1,7 +1,7 @@
 <h1 align="center">
   Fischkapp 📄
 </h1>
-git
+
 ---
 
 ### 📝 Project requirements
