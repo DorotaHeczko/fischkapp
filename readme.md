@@ -1,9 +1,7 @@
 <h1 align="center">
   Fischkapp 📄
 </h1>
-
-This project aims to create a simple app that supports learning.
-
+git
 ---
 
 ### 📝 Project requirements
