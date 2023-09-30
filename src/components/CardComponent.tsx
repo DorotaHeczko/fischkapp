@@ -37,6 +37,7 @@ const CardComponent: React.FC<CardComponentProps> = ({
           <p>
             {editMode ? (
               <textarea
+                aria-label="Tekst przedni"
                 className={styles.cardSide}
                 value={editedCard.front}
                 placeholder=""
@@ -49,17 +50,18 @@ const CardComponent: React.FC<CardComponentProps> = ({
             )}
           </p>
           <button className={styles.btn_edit} onClick={() => setEditMode(true)}>
-            {" "}
             <img src={editBtn} alt="edit-button" />
+            <span className={styles.visuallyhidden}>Edytuj</span>
           </button>
         </div>
       ) : (
         <div>
           <p>
             {editMode ? (
-              <input
+              <textarea
                 className={styles.cardSide}
                 value={editedCard.back}
+                placeholder=""
                 onChange={(e) =>
                   setEditedCard({ ...editedCard, back: e.target.value })
                 }
@@ -68,7 +70,10 @@ const CardComponent: React.FC<CardComponentProps> = ({
               editedCard.back
             )}
           </p>
-          <button onClick={() => setEditMode(true)}> </button>
+          <button className={styles.btn_edit} onClick={() => setEditMode(true)}>
+            <img src={editBtn} alt="edit-button" />
+            <span className={styles.visuallyhidden}>Edytuj</span>
+          </button>
         </div>
       )}
 
@@ -93,7 +98,8 @@ const CardComponent: React.FC<CardComponentProps> = ({
             Save
           </button>
           <button onClick={() => onDelete(card.id)}>
-            <img className={styles.btnDel} src={iconDelete} alt="icon-delete"/>
+            <img className={styles.btnDel} src={iconDelete} alt="icon-delete" />
+            <span className={styles.visuallyhidden}>Delete</span>
           </button>
         </div>
       )}

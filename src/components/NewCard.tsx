@@ -3,8 +3,9 @@ import styles from "./NewCard.module.css";
 import iconDelete from "../assets/iconDelete.svg";
 
 interface Flashcard {
-  frontText: string;
-  backText: string;
+  id: string;
+  front: string;
+  back: string;
 }
 
 interface CreateCardComponentProps {
@@ -39,19 +40,19 @@ const NewCard: React.FC<CreateCardComponentProps> = ({
     textarea.style.height = `${textarea.scrollHeight}px`;
   };
 
-  const handleSaveClick = () => {
-    const card: Flashcard = {
-      frontText: frontText,
-      backText: backText,
-    };
-    onAddCard(card);
+const handleSaveClick = () => {
+  const card: Flashcard = {
+    id: Date.now().toString(),
+    front: frontText,
+    back: backText,
   };
+  onAddCard(card);
+};
 
   const handleDelete = () => {
     setIsVisible(false);
   };
 
-  // Ajust initial textarea height
   useEffect(() => {
     if (frontTextareaRef.current) {
       adjustTextareaHeight(frontTextareaRef.current);
