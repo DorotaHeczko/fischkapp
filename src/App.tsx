@@ -32,14 +32,26 @@ function App() {
     setCards((prevCards) => [...prevCards, newCard]);
   };
 
-  const onCancelAdding = () => {
-    console.log("Dodawanie karty zostało anulowane");
-  };
+  
+  const [isAdding, setIsAdding] = useState(false);
 
   return (
     <AppLayout>
       <AppHeader cardsAmount={cards.length} />
-      <NewCard onAddCard={onAddCard} onCancelAdding={onCancelAdding} />
+
+      {/* Wyświetlanie przycisku + lub komponentu NewCard w zależności od stanu isAdding */}
+      {isAdding ? (
+        <NewCard
+          onAddCard={(card: Flashcard) => {
+            onAddCard(card);
+            setIsAdding(false); // Ukrycie NewCard po dodaniu
+          }}
+          onCancelAdding={() => setIsAdding(false)}
+        />
+      ) : (
+        <button onClick={() => setIsAdding(true)}>+</button>
+      )}
+
       <CardList>
         {cards.map((card) => (
           <CardComponent

@@ -2,6 +2,7 @@ import React, { useState, useRef, useEffect } from "react";
 import styles from "./NewCard.module.css";
 import iconDelete from "../assets/iconDelete.svg";
 
+
 interface Flashcard {
   id: string;
   front: string;
@@ -60,6 +61,8 @@ const handleSaveClick = () => {
     if (backTextareaRef.current) {
       adjustTextareaHeight(backTextareaRef.current);
     }
+
+    
   }, []);
 
   return isVisible ? (
