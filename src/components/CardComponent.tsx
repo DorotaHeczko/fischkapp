@@ -22,6 +22,7 @@ const CardComponent: React.FC<CardComponentProps> = ({
 }) => {
   const [isFront, setIsFront] = useState(true);
   const [editMode, setEditMode] = useState(false);
+  const [editingSide, setEditingSide] = useState<"front" | "back" | null>(null);
   const [editedCard, setEditedCard] = useState({ ...card });
 
   const handleFlip = () => {
@@ -30,12 +31,26 @@ const CardComponent: React.FC<CardComponentProps> = ({
     }
   };
 
+  const handleEditModeClick = (
+    e: React.MouseEvent<HTMLButtonElement>,
+    side: "front" | "back"
+  ) => {
+    e.stopPropagation();
+    setEditingSide(side);
+    setEditMode(true);
+  };
+
+  const handleDeleteClick = (e: React.MouseEvent<HTMLButtonElement>) => {
+    e.stopPropagation();
+    onDelete(card.id);
+  };
+
   return (
     <div className={styles.cardContainer} onClick={handleFlip}>
       {isFront ? (
         <div>
           <p>
-            {editMode ? (
+            {editMode && editingSide === "front" ? (
               <textarea
                 aria-label="Tekst przedni"
                 className={styles.cardSide}
@@ -49,15 +64,20 @@ const CardComponent: React.FC<CardComponentProps> = ({
               editedCard.front
             )}
           </p>
-          <button className={styles.btn_edit} onClick={() => setEditMode(true)}>
-            <img src={editBtn} alt="edit-button" />
-            <span className={styles.visuallyhidden}>Edytuj</span>
-          </button>
+          {!editMode && (
+            <button
+              className={styles.btn_edit}
+              onClick={(e) => handleEditModeClick(e, "front")}
+            >
+              <img src={editBtn} alt="edit-button" />
+              <span className={styles.visuallyhidden}>Edytuj</span>
+            </button>
+          )}
         </div>
       ) : (
         <div>
           <p>
-            {editMode ? (
+            {editMode && editingSide === "back" ? (
               <textarea
                 className={styles.cardSide}
                 value={editedCard.back}
@@ -70,10 +90,15 @@ const CardComponent: React.FC<CardComponentProps> = ({
               editedCard.back
             )}
           </p>
-          <button className={styles.btn_edit} onClick={() => setEditMode(true)}>
-            <img src={editBtn} alt="edit-button" />
-            <span className={styles.visuallyhidden}>Edytuj</span>
-          </button>
+          {!editMode && (
+            <button
+              className={styles.btn_edit}
+              onClick={(e) => handleEditModeClick(e, "back")}
+            >
+              <img src={editBtn} alt="edit-button" />
+              <span className={styles.visuallyhidden}>Edytuj</span>
+            </button>
+          )}
         </div>
       )}
 
@@ -83,6 +108,7 @@ const CardComponent: React.FC<CardComponentProps> = ({
             className={styles.button}
             onClick={() => {
               setEditMode(false);
+              setEditingSide(null);
               setEditedCard({ ...card });
             }}
           >
@@ -93,11 +119,12 @@ const CardComponent: React.FC<CardComponentProps> = ({
             onClick={() => {
               onEdit(editedCard);
               setEditMode(false);
+              setEditingSide(null);
             }}
           >
             Save
           </button>
-          <button onClick={() => onDelete(card.id)}>
+          <button onClick={(e) => handleDeleteClick(e)}>
             <img className={styles.btnDel} src={iconDelete} alt="icon-delete" />
             <span className={styles.visuallyhidden}>Delete</span>
           </button>
