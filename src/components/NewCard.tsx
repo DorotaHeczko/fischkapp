@@ -2,7 +2,6 @@ import React, { useState, useRef, useEffect } from "react";
 import styles from "./NewCard.module.css";
 import iconDelete from "../assets/iconDelete.svg";
 
-
 interface Flashcard {
   id: string;
   front: string;
@@ -18,8 +17,8 @@ const NewCard: React.FC<CreateCardComponentProps> = ({
   onAddCard,
   onCancelAdding,
 }) => {
-  const [isFront, setIsFront] = useState(true);
   const [isVisible, setIsVisible] = useState(true);
+  const [isBackSideShown, setIsBackSideShown] = useState(false);
   const [frontText, setFrontText] = useState("");
   const [backText, setBackText] = useState("");
 
@@ -41,14 +40,14 @@ const NewCard: React.FC<CreateCardComponentProps> = ({
     textarea.style.height = `${textarea.scrollHeight}px`;
   };
 
-const handleSaveClick = () => {
-  const card: Flashcard = {
-    id: Date.now().toString(),
-    front: frontText,
-    back: backText,
+  const handleSaveClick = () => {
+    const card: Flashcard = {
+      id: Date.now().toString(),
+      front: frontText,
+      back: backText,
+    };
+    onAddCard(card);
   };
-  onAddCard(card);
-};
 
   const handleDelete = () => {
     setIsVisible(false);
@@ -61,36 +60,12 @@ const handleSaveClick = () => {
     if (backTextareaRef.current) {
       adjustTextareaHeight(backTextareaRef.current);
     }
-
-    
   }, []);
 
   return isVisible ? (
     <div className={styles.newCardContainer}>
-      {isFront ? (
-        <div>
-          <textarea
-            ref={frontTextareaRef}
-            className={styles.cardSide}
-            placeholder=""
-            value={frontText}
-            onChange={handleTextareaChange(setFrontText, frontTextareaRef)}
-          />
-
-          <div>
-            <button className={styles.button} onClick={onCancelAdding}>
-              Cancel
-            </button>
-            <button
-              className={styles.btnblack}
-              onClick={() => setIsFront(false)}
-            >
-              Next
-            </button>
-          </div>
-        </div>
-      ) : (
-        <div>
+      {isBackSideShown ? (
+        <>
           <textarea
             ref={backTextareaRef}
             className={styles.cardSide}
@@ -98,9 +73,11 @@ const handleSaveClick = () => {
             value={backText}
             onChange={handleTextareaChange(setBackText, backTextareaRef)}
           />
-
           <div>
-            <button className={styles.button} onClick={() => setIsFront(true)}>
+            <button
+              className={styles.button}
+              onClick={() => setIsBackSideShown(false)}
+            >
               Back
             </button>
             <button className={styles.btnblack} onClick={handleSaveClick}>
@@ -114,7 +91,28 @@ const handleSaveClick = () => {
               />
             </button>
           </div>
-        </div>
+        </>
+      ) : (
+        <>
+          <textarea
+            ref={frontTextareaRef}
+            className={styles.cardSide}
+            placeholder=""
+            value={frontText}
+            onChange={handleTextareaChange(setFrontText, frontTextareaRef)}
+          />
+          <div>
+            <button className={styles.button} onClick={onCancelAdding}>
+              Cancel
+            </button>
+            <button
+              className={styles.btnblack}
+              onClick={() => setIsBackSideShown(true)}
+            >
+              Next
+            </button>
+          </div>
+        </>
       )}
     </div>
   ) : null;
