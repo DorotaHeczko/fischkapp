@@ -15,6 +15,7 @@ interface Flashcard {
 function App() {
   const [cards, setCards] = useState<Flashcard[]>([
     { id: "1", front: "Treść karty 1", back: "Tył karty 1" },
+    { id: "2", front: "Treść karty 2", back: "Tył karty 2" },
     // ... reszta kart
   ]);
 
