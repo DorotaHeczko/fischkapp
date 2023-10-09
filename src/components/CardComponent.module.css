@@ -6,7 +6,31 @@
   background-color: var(--btn-white);
   border-radius: 15px;
   border: 1px #ebebec solid;
+  
 }
+
+.cardContainer.flipped .cardFront {
+  transform: rotateY(180deg);
+}
+
+.cardContainer.flipped .cardBack {
+  transform: rotateY(0deg);
+}
+
+.cardFront, .cardBack {
+  backface-visibility: hidden;
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  transform: rotateY(180deg); 
+}
+
+.cardFront {
+  transform: rotateY(0deg);
+}
+
 
 .btn_edit {
   background-color: transparent;
