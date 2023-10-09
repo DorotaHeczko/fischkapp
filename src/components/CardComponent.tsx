@@ -47,14 +47,17 @@ const CardComponent: React.FC<CardComponentProps> = ({
 
   return (
     <>
-      <div className={styles.cardContainer} onClick={handleFlip}>
+      <div
+        className={`${styles.cardContainer} ${!isFront ? styles.flipped : ""}`}
+        onClick={handleFlip}
+      >
         {isFront ? (
           <div>
             <p>
               {editMode ? (
                 <textarea
                   aria-label="Tekst przedni"
-                  className={styles.cardSide}
+                  className={`${styles.cardSide} ${styles.cardFront}`}
                   value={editedCard.front}
                   placeholder=""
                   onChange={(e) =>
@@ -70,7 +73,7 @@ const CardComponent: React.FC<CardComponentProps> = ({
               onClick={() => setEditMode(true)}
             >
               <img src={editBtn} alt="edit-button" />
-              <span className={styles.visuallyhidden}>Edytuj</span>
+              <span className={styles.visuallyhidden}>Edit</span>
             </button>
           </div>
         ) : (
@@ -78,7 +81,7 @@ const CardComponent: React.FC<CardComponentProps> = ({
             <p>
               {editMode ? (
                 <textarea
-                  className={styles.cardSide}
+                  className={`${styles.cardSide} ${styles.cardBack}`}
                   value={editedCard.back}
                   placeholder=""
                   onChange={(e) =>
@@ -94,7 +97,7 @@ const CardComponent: React.FC<CardComponentProps> = ({
               onClick={() => setEditMode(true)}
             >
               <img src={editBtn} alt="edit-button" />
-              <span className={styles.visuallyhidden}>Edytuj</span>
+              <span className={styles.visuallyhidden}>Edit</span>
             </button>
           </div>
         )}
