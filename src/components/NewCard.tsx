@@ -25,6 +25,8 @@ const NewCard: React.FC<CreateCardComponentProps> = ({
   const frontTextareaRef = useRef<HTMLTextAreaElement>(null);
   const backTextareaRef = useRef<HTMLTextAreaElement>(null);
 
+
+  
   const handleTextareaChange =
     (
       setText: React.Dispatch<React.SetStateAction<string>>,
