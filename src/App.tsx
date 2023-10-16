@@ -15,16 +15,12 @@ interface Flashcard {
 function App() {
   const [cards, setCards] = useState<Flashcard[]>([]);
 
+  // Pobieranie istniejących kart z bazy danych podczas inicjalizacji aplikacji
   useEffect(() => {
     fetch("https://training.nerdbord.io/api/v1/fischkapp/flashcards")
-      .then((response) => {
-        if (!response.ok) {
-          throw new Error("Nie udało się pobrać kart.");
-        }
-        return response.json();
-      })
+      .then((response) => response.json())
       .then((data) => setCards(data))
-      .catch((error) => console.error("Błąd:", error.message));
+      .catch((error) => console.error("Błąd podczas ładowania kart:", error));
   }, []);
 
   const onEditFunction = (updatedCard: Flashcard) => {
@@ -37,8 +33,33 @@ function App() {
     setCards((prevCards) => prevCards.filter((card) => card.id !== id));
   };
 
+  const addFlashcardToDatabase = (card: Flashcard) => {
+    fetch("https://training.nerdbord.io/api/v1/fischkapp/flashcards", {
+      method: "POST",
+      headers: {
+        Authorization: "secret_token",
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        front: card.front,
+        back: card.back,
+      }),
+    })
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error("Nie udało się dodać karty.");
+        }
+        return response.json();
+      })
+      .then((data) => {
+        card.id = data.id;
+        setCards((prevCards) => [...prevCards, card]);
+      })
+      .catch((error) => console.error("Błąd:", error.message));
+  };
+
   const onAddCard = (newCard: Flashcard) => {
-    setCards((prevCards) => [...prevCards, newCard]);
+    addFlashcardToDatabase(newCard);
   };
 
   const [isAdding, setIsAdding] = useState(false);
@@ -51,7 +72,7 @@ function App() {
         <NewCard
           onAddCard={(card: Flashcard) => {
             onAddCard(card);
-            setIsAdding(false);
+            setIsAdding(false); // Ukrycie NewCard po dodaniu
           }}
           onCancelAdding={() => setIsAdding(false)}
         />
