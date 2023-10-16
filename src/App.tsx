@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { AppHeader } from "./components/AppHeader";
 import { AppLayout } from "./components/AppLayout";
 import NewCard from "./components/NewCard";
@@ -13,11 +13,19 @@ interface Flashcard {
 }
 
 function App() {
-  const [cards, setCards] = useState<Flashcard[]>([
-    { id: "1", front: "Treść karty 1", back: "Tył karty 1" },
-    { id: "2", front: "Treść karty 2", back: "Tył karty 2" },
-    // ... reszta kart
-  ]);
+  const [cards, setCards] = useState<Flashcard[]>([]);
+
+  useEffect(() => {
+    fetch("https://training.nerdbord.io/api/v1/fischkapp/flashcards")
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error("Nie udało się pobrać kart.");
+        }
+        return response.json();
+      })
+      .then((data) => setCards(data))
+      .catch((error) => console.error("Błąd:", error.message));
+  }, []);
 
   const onEditFunction = (updatedCard: Flashcard) => {
     setCards((prevCards) =>
@@ -33,19 +41,17 @@ function App() {
     setCards((prevCards) => [...prevCards, newCard]);
   };
 
-  
   const [isAdding, setIsAdding] = useState(false);
 
   return (
     <AppLayout>
       <AppHeader cardsAmount={cards.length} />
 
-      {/* Wyświetlanie przycisku + lub komponentu NewCard w zależności od stanu isAdding */}
       {isAdding ? (
         <NewCard
           onAddCard={(card: Flashcard) => {
             onAddCard(card);
-            setIsAdding(false); // Ukrycie NewCard po dodaniu
+            setIsAdding(false);
           }}
           onCancelAdding={() => setIsAdding(false)}
         />
