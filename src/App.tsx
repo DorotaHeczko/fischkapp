@@ -23,11 +23,20 @@ function App() {
       .catch((error) => console.error("Błąd podczas ładowania kart:", error));
   }, []);
 
-  const onEditFunction = (updatedCard: Flashcard) => {
-    setCards((prevCards) =>
-      prevCards.map((card) => (card.id === updatedCard.id ? updatedCard : card))
-    );
-  };
+const onEditFunction = (updatedCard: Flashcard) => {
+  updateCardInDatabase(updatedCard)
+    .then((data) => {
+      const returnedCard = data || updatedCard;
+      setCards((prevCards) =>
+        prevCards.map((card) =>
+          card.id === returnedCard.id ? returnedCard : card
+        )
+      );
+    })
+    .catch((error) => {
+      console.error("Error updating card:", error);
+    });
+};
 
   const onDeleteFunction = (id: string) => {
     setCards((prevCards) => prevCards.filter((card) => card.id !== id));
@@ -63,6 +72,30 @@ function App() {
   };
 
   const [isAdding, setIsAdding] = useState(false);
+  const updateCardInDatabase = async (card: Flashcard) => {
+    const response = await fetch(
+      `https://training.nerdbord.io/api/v1/fischkapp/flashcards/${card.id}`,
+      {
+        method: "PATCH",
+        headers: {
+          Authorization: "secret_token",
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          id: card.id,
+          front: card.front,
+          back: card.back,
+        }),
+      }
+    );
+
+    if (!response.ok) {
+      throw new Error("Failed to update card in the database");
+    }
+
+    return response.json();
+  };
+
 
   return (
     <AppLayout>
