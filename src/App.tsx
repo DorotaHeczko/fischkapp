@@ -12,8 +12,38 @@ interface Flashcard {
   back: string;
 }
 
+async function deleteFlashcard(id: string): Promise<void> {
+  const response = await fetch(
+    `https://training.nerdbord.io/api/v1/fischkapp/flashcards/${id}`,
+    {
+      method: "DELETE",
+      headers: {
+        Authorization: "secret_token",
+        "Content-Type": "application/json",
+      },
+    }
+  );
+
+  if (!response.ok) {
+    const responseData = await response.json();
+    throw new Error(responseData.message || "Failed to delete the flashcard.");
+  }
+}
+
+
 function App() {
   const [cards, setCards] = useState<Flashcard[]>([]);
+
+useEffect(() => {
+  const ids = cards.map((card) => card.id);
+  const uniqueIds = new Set(ids);
+
+  if (ids.length !== uniqueIds.size) {
+    console.error("Some cards have duplicate IDs!");
+  }
+}, [cards]);
+
+
 
   // Pobieranie istniejących kart z bazy danych podczas inicjalizacji aplikacji
   useEffect(() => {
@@ -38,9 +68,15 @@ const onEditFunction = (updatedCard: Flashcard) => {
     });
 };
 
-  const onDeleteFunction = (id: string) => {
+const onDeleteFunction = async (id: string) => {
+  try {
+    await deleteFlashcard(id);
     setCards((prevCards) => prevCards.filter((card) => card.id !== id));
-  };
+  } catch (error) {
+    console.error("Error while deleting the flashcard:", error);
+  }
+};
+
 
   const addFlashcardToDatabase = (card: Flashcard) => {
     fetch("https://training.nerdbord.io/api/v1/fischkapp/flashcards", {
@@ -105,7 +141,7 @@ const onEditFunction = (updatedCard: Flashcard) => {
         <NewCard
           onAddCard={(card: Flashcard) => {
             onAddCard(card);
-            setIsAdding(false); // Ukrycie NewCard po dodaniu
+            setIsAdding(false); 
           }}
           onCancelAdding={() => setIsAdding(false)}
         />
