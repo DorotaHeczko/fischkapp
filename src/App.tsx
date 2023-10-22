@@ -4,7 +4,8 @@ import { AppLayout } from "./components/AppLayout";
 import NewCard from "./components/NewCard";
 import CardList from "./components/CardList";
 import CardComponent from "./components/CardComponent";
-import "./App.css";
+import styles from "./App.module.css";
+
 
 interface Flashcard {
   id: string;
@@ -34,14 +35,14 @@ async function deleteFlashcard(id: string): Promise<void> {
 function App() {
   const [cards, setCards] = useState<Flashcard[]>([]);
 
-useEffect(() => {
-  const ids = cards.map((card) => card.id);
-  const uniqueIds = new Set(ids);
+// useEffect(() => {
+//   const ids = cards.map((card) => card.id);
+//   const uniqueIds = new Set(ids);
 
-  if (ids.length !== uniqueIds.size) {
-    console.error("Some cards have duplicate IDs!");
-  }
-}, [cards]);
+//   if (ids.length !== uniqueIds.size) {
+//     console.error("Some cards have duplicate IDs!");
+//   }
+// }, [cards]);
 
 
 
@@ -141,12 +142,14 @@ const onDeleteFunction = async (id: string) => {
         <NewCard
           onAddCard={(card: Flashcard) => {
             onAddCard(card);
-            setIsAdding(false); 
+            setIsAdding(false);
           }}
           onCancelAdding={() => setIsAdding(false)}
         />
       ) : (
-        <button onClick={() => setIsAdding(true)}>+</button>
+        <button className={styles.btn_hidden} onClick={() => setIsAdding(true)}>
+          
+        </button>
       )}
 
       <CardList>
