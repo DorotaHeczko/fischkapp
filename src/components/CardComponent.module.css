@@ -3,6 +3,7 @@
   width: 343px;
   height: 188px;
   margin: 16px;
+    padding: 20px;
   background-color: var(--btn-white);
   border-radius: 15px;
   border: 1px #ebebec solid;
@@ -114,4 +115,8 @@
   background-color: #fff;
   border: 1px solid #ccc;
   z-index: 1000;
+}
+
+.text {
+    margin: 20px;
 }

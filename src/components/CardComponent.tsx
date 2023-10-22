@@ -77,7 +77,7 @@ const CardComponent: React.FC<CardComponentProps> = ({
             </button>
           </div>
         ) : (
-          <div>
+          <div className={styles.text}>
             <p>
               {editMode ? (
                 <textarea
